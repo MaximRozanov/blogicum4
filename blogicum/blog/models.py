@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils import timezone
 
 from .constants import MAX_LENGTH
 
@@ -13,9 +12,7 @@ class PublishedModel(models.Model):
         verbose_name="Опубликовано",
         help_text="Снимите галочку, чтобы скрыть публикацию.",
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name="Добавлено")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Добавлено")
 
     class Meta:
         abstract = True
@@ -28,7 +25,7 @@ class Category(PublishedModel):
         unique=True,
         verbose_name="Идентификатор",
         help_text="Идентификатор страницы для URL;"
-                  " разрешены символы латиницы, цифры, дефис и подчёркивание.",
+        " разрешены символы латиницы, цифры, дефис и подчёркивание.",
     )
 
     class Meta:
@@ -56,29 +53,28 @@ class Post(PublishedModel):
     pub_date = models.DateTimeField(
         verbose_name="Дата и время публикации",
         help_text="Если установить дату и время в будущем — "
-                  "можно делать отложенные публикации.",
-        default=timezone.now(),
+        "можно делать отложенные публикации.",
     )
-    image = models.ImageField('Фото', upload_to='post_photo', blank=True)
+    image = models.ImageField("Фото", upload_to="post_photo", blank=True)
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts',
-        verbose_name="Автор публикации"
+        related_name="posts",
+        verbose_name="Автор публикации",
     )
     location = models.ForeignKey(
         Location,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='posts',
-        verbose_name="Местоположение"
+        related_name="posts",
+        verbose_name="Местоположение",
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='posts',
-        verbose_name="Категория"
+        related_name="posts",
+        verbose_name="Категория",
     )
 
     class Meta:
@@ -91,11 +87,11 @@ class Post(PublishedModel):
 
 
 class Comments(models.Model):
-    text = models.TextField('text')
+    text = models.TextField("text")
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
-        related_name='comments',
+        related_name="comments",
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
