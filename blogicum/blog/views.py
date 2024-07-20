@@ -87,7 +87,9 @@ class PostMixin:
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse("blog:profile", kwargs={"username": self.request.user.username})
+        return reverse("blog:profile",
+                       kwargs={"username": self.request.user.username}
+                       )
 
 
 class PostUpdateView(PostMixin, UpdateView):
@@ -111,9 +113,12 @@ class CategoryListView(ListView):
             is_published=True,
         )
         return (
-            Post.objects.annotate(comment_count=Count("comments"))
+            Post.objects
+            .annotate(comment_count=Count("comments"))
             .filter(
-                category=self.category, is_published=True, pub_date__lte=timezone.now()
+                category=self.category,
+                is_published=True,
+                pub_date__lte=timezone.now()
             )
             .order_by("-pub_date")
         )
