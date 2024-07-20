@@ -1,24 +1,27 @@
 from typing import Tuple, Union
 
 import bs4
-from conftest import TitledUrlRepr
-from django.db.models import Model, QuerySet
+from django.db.models import QuerySet, Model
 from django.forms import BaseForm
 from django.http import HttpResponse
+
+from conftest import TitledUrlRepr
 from fixtures.types import ModelAdapterT
 from form.base_form_tester import (
-    AuthenticatedEditException,
-    BaseFormTester,
-    DatabaseCreationException,
-    FormMethodException,
     FormTagMissingException,
-    FormValidationException,
-    ItemCreatedException,
-    SubmitTester,
+    FormMethodException,
     TextareaMismatchException,
     TextareaTagMissingException,
-    UnauthenticatedEditException,
+)
+from form.base_form_tester import (
+    SubmitTester,
+    FormValidationException,
+    BaseFormTester,
     UnauthorizedEditException,
+    UnauthenticatedEditException,
+    AuthenticatedEditException,
+    DatabaseCreationException,
+    ItemCreatedException,
 )
 
 
@@ -31,7 +34,9 @@ class EditUserFormTester(BaseFormTester):
         **kwargs,
     ):
         try:
-            super().__init__(response, *args, ModelAdapter=ModelAdapter, **kwargs)
+            super().__init__(
+                response, *args, ModelAdapter=ModelAdapter, **kwargs
+            )
         except FormTagMissingException as e:
             raise AssertionError(
                 "Убедитесь, что на страницу редактирования профиля"
@@ -44,7 +49,9 @@ class EditUserFormTester(BaseFormTester):
 
     @property
     def textarea_tag(self) -> bs4.Tag:
-        raise NotImplementedError("This tag is not applicable on user profile page.")
+        raise NotImplementedError(
+            "This tag is not applicable on user profile page."
+        )
 
     def _validate(self):
         try:
@@ -77,7 +84,9 @@ class EditUserFormTester(BaseFormTester):
                 f"{type(e).__name__}: {e}"
             ) from e
 
-    def test_unlogged_cannot_create(self, form: BaseForm, qs: QuerySet) -> None:
+    def test_unlogged_cannot_create(
+        self, form: BaseForm, qs: QuerySet
+    ) -> None:
         try:
             super().test_unlogged_cannot_create(form, qs)
         except ItemCreatedException as e:
@@ -104,7 +113,8 @@ class EditUserFormTester(BaseFormTester):
             )
         except AuthenticatedEditException:
             raise AssertionError(
-                "Убедитесь, что пользователь может редактировать свой" " профиль."
+                "Убедитесь, что пользователь может редактировать свой"
+                " профиль."
             )
         except DatabaseCreationException:
             raise AssertionError(
@@ -115,7 +125,9 @@ class EditUserFormTester(BaseFormTester):
     def redirect_error_message(
         self, by_user: str, redirect_to_page: Union[TitledUrlRepr, str]
     ) -> str:
-        redirect_to_page_repr = self.get_redirect_to_page_repr(redirect_to_page)
+        redirect_to_page_repr = self.get_redirect_to_page_repr(
+            redirect_to_page
+        )
         return (
             "Убедитесь, что после отправки формы редактирования профиля"
             f" пользователя {by_user} он перенаправляется на"

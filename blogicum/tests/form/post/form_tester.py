@@ -1,11 +1,12 @@
 from io import BytesIO
-from typing import Dict, Type
+from typing import Type, Dict
 
-from adapters.post import PostModelAdapter
+from PIL import Image
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.forms import BaseForm
+
+from adapters.post import PostModelAdapter
 from form.base_form_tester import BaseFormTester
-from PIL import Image
 
 
 class PostFormTester(BaseFormTester):
@@ -21,7 +22,9 @@ class PostFormTester(BaseFormTester):
         from blog.models import Post
 
         files = {
-            PostModelAdapter(Post).get_student_field_name("image"): SimpleUploadedFile(
+            PostModelAdapter(Post).get_student_field_name(
+                "image"
+            ): SimpleUploadedFile(
                 "test_image.jpg", image_data.read(), content_type="image/jpeg"
             ),
         }
@@ -37,7 +40,9 @@ class PostFormTester(BaseFormTester):
         from blog.models import Post
 
         files = {
-            PostModelAdapter(Post).get_student_field_name("image"): SimpleUploadedFile(
+            PostModelAdapter(Post).get_student_field_name(
+                "image"
+            ): SimpleUploadedFile(
                 "test_image.jpg", image_data.read(), content_type="image/jpeg"
             ),
         }
