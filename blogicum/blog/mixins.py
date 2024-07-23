@@ -40,7 +40,8 @@ class PostMixin:
         return super().dispatch(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse("blog:profile", kwargs={"username": self.request.user.username})
+        return reverse("blog:profile",
+                       kwargs={"username": self.request.user.username})
 
 
 class CommentsMixin:

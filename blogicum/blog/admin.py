@@ -21,7 +21,7 @@ class CommentsAdmin(admin.ModelAdmin):
     def unpublish_comments(self, request, queryset):
         queryset.update(is_published=False)
 
-    unpublish_comments.short_description = "Снять с публикации выбранные комментарии"
+    unpublish_comments.short_description = "Снять комментарии с публикации"
 
 
 @admin.register(Post)
