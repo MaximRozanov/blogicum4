@@ -9,9 +9,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
-    "django_bootstrap5",
     "blog.apps.BlogConfig",
     "pages.apps.PagesConfig",
+    "django_bootstrap5",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -101,3 +101,5 @@ EMAIL_BACKEND = "django.pages.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 
 LOGIN_REDIRECT_URL = "blog:index"
+
+LOGIN_URL = "login"
