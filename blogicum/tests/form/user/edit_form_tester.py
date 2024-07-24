@@ -6,20 +6,16 @@ from django.db.models import Model, QuerySet
 from django.forms import BaseForm
 from django.http import HttpResponse
 from fixtures.types import ModelAdapterT
-from form.base_form_tester import (
-    AuthenticatedEditException,
-    BaseFormTester,
-    DatabaseCreationException,
-    FormMethodException,
-    FormTagMissingException,
-    FormValidationException,
-    ItemCreatedException,
-    SubmitTester,
-    TextareaMismatchException,
-    TextareaTagMissingException,
-    UnauthenticatedEditException,
-    UnauthorizedEditException,
-)
+from form.base_form_tester import (AuthenticatedEditException, BaseFormTester,
+                                   DatabaseCreationException,
+                                   FormMethodException,
+                                   FormTagMissingException,
+                                   FormValidationException,
+                                   ItemCreatedException, SubmitTester,
+                                   TextareaMismatchException,
+                                   TextareaTagMissingException,
+                                   UnauthenticatedEditException,
+                                   UnauthorizedEditException)
 
 
 class EditUserFormTester(BaseFormTester):

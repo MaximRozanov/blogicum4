@@ -3,17 +3,12 @@ from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    DetailView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
-from blog.models import Category, Comment, Post, User
 from blog.form import CommentForm, PostForm
 from blog.mixins import CommentMixin, PostListMixin, PostMixin
+from blog.models import Category, Comment, Post, User
 
 
 class IndexListView(PostListMixin, ListView):
@@ -94,8 +89,8 @@ class PostListView(PostListMixin, ListView):
     def get_queryset(self):
         user = self.get_object()
         if self.request.user == user:
-            return PostListMixin.posts_queryset(self) \
-                .filter(author__id=user.id)
+            return self.posts_queryset().filter(author=user)
+
         else:
             return super().get_queryset().filter(author=user)
 

@@ -12,7 +12,8 @@ from django.db.models import DateTimeField, ForeignKey, Model, TextField
 from django.forms import BaseForm
 from django.utils import timezone
 from fixtures.types import CommentModelAdapterT
-from form.base_form_tester import AuthorisedSubmitTester, FormValidationException
+from form.base_form_tester import (AuthorisedSubmitTester,
+                                   FormValidationException)
 from form.comment.create_form_tester import CreateCommentFormTester
 from form.comment.delete_tester import DeleteCommentTester
 from form.comment.edit_form_tester import EditCommentFormTester

@@ -4,17 +4,8 @@ import time
 from http import HTTPStatus
 from inspect import getsource
 from pathlib import Path
-from typing import (
-    Any,
-    Iterable,
-    List,
-    NamedTuple,
-    Optional,
-    Tuple,
-    Type,
-    TypeVar,
-    Union,
-)
+from typing import (Any, Iterable, List, NamedTuple, Optional, Tuple, Type,
+                    TypeVar, Union)
 
 import pytest
 from django.apps import apps

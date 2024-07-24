@@ -4,23 +4,13 @@ import re
 from abc import ABC, abstractmethod
 from functools import partial
 from http import HTTPStatus
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    Iterable,
-    List,
-    Optional,
-    Sequence,
-    Set,
-    Tuple,
-    Type,
-    Union,
-)
+from typing import (Any, Callable, Dict, Iterable, List, Optional, Sequence,
+                    Set, Tuple, Type, Union)
 
 import bs4
 import django.test
-from conftest import ItemNotCreatedException, TitledUrlRepr, restore_cleaned_data
+from conftest import (ItemNotCreatedException, TitledUrlRepr,
+                      restore_cleaned_data)
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import Model, QuerySet
 from django.forms import BaseForm

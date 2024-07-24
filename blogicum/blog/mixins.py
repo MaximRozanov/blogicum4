@@ -14,26 +14,20 @@ class PostListMixin:
     paginate_by = POST_LIST_LIMIT
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = (
-            queryset.select_related(
-                "category",
-                "location",
-                "author"
-            )
-            .annotate(comment_count=Count("comments"))
-            .filter(
-                category__is_published=True,
-                is_published=True,
-                pub_date__lte=timezone.now(),
-            )
-            .order_by("-pub_date")
+        queryset = self.posts_queryset().filter(
+            category__is_published=True,
+            is_published=True,
+            pub_date__lte=timezone.now(),
         )
         return queryset
 
     def posts_queryset(self):
         return (
-            self.model.objects.select_related('author')
+            self.model.objects.select_related(
+                "category",
+                "location",
+                "author"
+            )
             .annotate(comment_count=Count('comments'))
             .order_by('-pub_date'))
 

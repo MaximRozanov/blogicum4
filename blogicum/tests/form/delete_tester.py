@@ -4,12 +4,9 @@ from typing import Optional, Set, Tuple, Union
 from conftest import TitledUrlRepr
 from django.db.models import Model, QuerySet
 from django.http import HttpResponse
-from form.base_form_tester import (
-    AnonymousSubmitTester,
-    AuthorisedSubmitTester,
-    SubmitTester,
-    UnauthorizedSubmitTester,
-)
+from form.base_form_tester import (AnonymousSubmitTester,
+                                   AuthorisedSubmitTester, SubmitTester,
+                                   UnauthorizedSubmitTester)
 from form.base_tester import BaseTester
 
 

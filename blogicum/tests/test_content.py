@@ -7,12 +7,8 @@ from adapters.model_adapter import ModelAdapter
 from adapters.post import PostModelAdapter
 from bs4 import BeautifulSoup
 from bs4.element import SoupStrainer
-from conftest import (
-    N_PER_PAGE,
-    UrlRepr,
-    _testget_context_item_by_class,
-    _testget_context_item_by_key,
-)
+from conftest import (N_PER_PAGE, UrlRepr, _testget_context_item_by_class,
+                      _testget_context_item_by_key)
 from django.db.models import Model
 from django.http import HttpResponse
 from django.test.client import Client

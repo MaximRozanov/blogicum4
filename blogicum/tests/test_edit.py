@@ -1,7 +1,8 @@
 from typing import Dict, Optional, Type
 
 import django.test
-from conftest import KeyVal, _testget_context_item_by_class, get_get_response_safely
+from conftest import (KeyVal, _testget_context_item_by_class,
+                      get_get_response_safely)
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models import Model
 from django.forms import BaseForm
