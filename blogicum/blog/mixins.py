@@ -5,8 +5,8 @@ from django.urls import reverse
 from django.utils import timezone
 
 from blog.constants import POST_LIST_LIMIT
-from blog.form import CommentsForm, PostForm
-from blog.models import Comments, Post
+from blog.form import CommentForm, PostForm
+from blog.models import Comment, Post
 
 
 class PostListMixin:
@@ -16,7 +16,11 @@ class PostListMixin:
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = (
-            queryset.select_related("category")
+            queryset.select_related(
+                "category",
+                "location",
+                "author"
+            )
             .annotate(comment_count=Count("comments"))
             .filter(
                 category__is_published=True,
@@ -26,6 +30,12 @@ class PostListMixin:
             .order_by("-pub_date")
         )
         return queryset
+
+    def posts_queryset(self):
+        return (
+            self.model.objects.select_related('author')
+            .annotate(comment_count=Count('comments'))
+            .order_by('-pub_date'))
 
 
 class PostMixin:
@@ -44,9 +54,9 @@ class PostMixin:
                        kwargs={"username": self.request.user.username})
 
 
-class CommentsMixin:
-    model = Comments
-    form_class = CommentsForm
+class CommentMixin:
+    model = Comment
+    form_class = CommentForm
     template_name = "blog/comment.html"
     pk_url_kwarg = "comment_id"
 

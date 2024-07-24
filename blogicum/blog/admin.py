@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Comments, Location, Post
+from blog.models import Category, Comment, Location, Post
 
 
 @admin.register(Category)
@@ -13,15 +13,16 @@ class LocationAdmin(admin.ModelAdmin):
     pass
 
 
-@admin.register(Comments)
+@admin.register(Comment)
 class CommentsAdmin(admin.ModelAdmin):
     list_display = ("author", "created_at")
     actions = ["unpublish_comments"]
 
+    @admin.display(
+        description="Снять комментарии с публикации",
+    )
     def unpublish_comments(self, request, queryset):
         queryset.update(is_published=False)
-
-    unpublish_comments.short_description = "Снять комментарии с публикации"
 
 
 @admin.register(Post)

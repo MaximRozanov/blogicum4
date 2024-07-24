@@ -1,11 +1,11 @@
 from django import forms
 
-from .models import Comments, Post, User
+from blog.models import Comment, Post, User
 
 
-class CommentsForm(forms.ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
-        model = Comments
+        model = Comment
         fields = ("text",)
 
 

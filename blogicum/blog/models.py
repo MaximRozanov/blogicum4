@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from .constants import MAX_LENGTH, TEXT_LIMIT
+from blog.constants import MAX_LENGTH, TEXT_LIMIT
 
 User = get_user_model()
 
@@ -92,7 +92,7 @@ class Post(PublishedModel):
         return self.title
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     text = models.TextField("text")
     post = models.ForeignKey(
         Post,
@@ -104,7 +104,7 @@ class Comments(models.Model):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name="author",
+        related_name='authors',
     )
 
     class Meta:

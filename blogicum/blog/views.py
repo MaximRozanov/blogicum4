@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
@@ -11,10 +11,9 @@ from django.views.generic import (
     UpdateView,
 )
 
-from blog.models import Category, Comments, Post, User
-
-from .form import CommentsForm, PostForm
-from .mixins import CommentsMixin, PostListMixin, PostMixin
+from blog.models import Category, Comment, Post, User
+from blog.form import CommentForm, PostForm
+from blog.mixins import CommentMixin, PostListMixin, PostMixin
 
 
 class IndexListView(PostListMixin, ListView):
@@ -52,7 +51,7 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = CommentsForm()
+        context["form"] = CommentForm()
         context["comments"] = self.object.comments.select_related("author")
         return context
 
@@ -94,9 +93,9 @@ class PostListView(PostListMixin, ListView):
 
     def get_queryset(self):
         user = self.get_object()
-
         if self.request.user == user:
-            return self.get_object().posts.all()
+            return PostListMixin.posts_queryset(self) \
+                .filter(author__id=user.id)
         else:
             return super().get_queryset().filter(author=user)
 
@@ -125,8 +124,8 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
 
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
-    model = Comments
-    form_class = CommentsForm
+    model = Comment
+    form_class = CommentForm
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -137,15 +136,9 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return reverse("blog:post_detail", kwargs={"pk": self.kwargs["pk"]})
 
 
-class CommentUpdateView(LoginRequiredMixin, CommentsMixin, UpdateView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["comment"] = self.get_object()
-        return context
+class CommentUpdateView(LoginRequiredMixin, CommentMixin, UpdateView):
+    pass
 
 
-class CommentDeleteView(LoginRequiredMixin, CommentsMixin, DeleteView):
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["comment"] = self.get_object()
-        return context
+class CommentDeleteView(LoginRequiredMixin, CommentMixin, DeleteView):
+    pass
